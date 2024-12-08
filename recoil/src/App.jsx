@@ -1,39 +1,36 @@
 import { useContext } from "react"
 import { CountContext } from "./context";
 import { countAtom } from "./store/atoms/count";
+import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
 // now we dont need a state if we are using recoil
 function App() {
   //const [count, setCount] = useState(0);
-  // wrap anyone that wants to use the teleported value inside a provider
-  // we use contextapi to make syntax cleaner/get rid of propdrilling
-  // context api has some unecessary re renders that is solved by state management using recoil 
-  
+  // we need to wrap everything inside the recoil root 
   return (
     <div>
- 
+      <RecoilRoot>
       <Count />
-
-    
-    </div>
+      </RecoilRoot>
+     </div>
   )
 }
-
+// any thing that uses recoil logic need to be wrapped
 function Count() {
   return <div>
     <CountRenderer />
     <Buttons   />
   </div>
 }
-// now we have acces of count value without passing it into Count function 
+// now we have acces of count value without passing it into Count function const [count, setCount] = useState(0); int this arrray 
 function CountRenderer() {
-  const count = 0;
+  const count = useRecoilValue(countAtom);// use reoil value is like count in 
   return <div>
     {count}
   </div>
 }
 
 function Buttons() {
-  const count = 0;
+  const [count, setCount] = useRecoilState(countAtom);
   return <div>
     <button onClick={() => {
       setCount(count + 1)
