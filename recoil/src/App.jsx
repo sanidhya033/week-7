@@ -16,6 +16,7 @@ function App() {
 }
 // any thing that uses recoil logic need to be wrapped
 function Count() {
+  console.log("re-render");
   return <div>
     <CountRenderer />
     <Buttons   />
@@ -28,16 +29,26 @@ function CountRenderer() {
     {count}
   </div>
 }
+// we know 
+// setcount(count+1);
+// setcount(c => c+1);
+// setcount(function(c){
+//      return c+1; 
+ // })
+
+ // all three gives same thing 
+ // using 2nd and 3rd we dont need count so nee need to re render buttons 
 
 function Buttons() {
-  const [count, setCount] = useRecoilState(countAtom);
+ // const [count, setCount] = useRecoilState(countAtom);
+ const setCount = useRecoilState(countAtom);
   return <div>
     <button onClick={() => {
-      setCount(count + 1)
+      setCount(count =>count + 1)
     }}>Increase</button>
 
     <button onClick={() => {
-      setCount(count - 1)
+      setCount(count =>count - 1)
     }}>Decrease</button>
   </div>
 }
